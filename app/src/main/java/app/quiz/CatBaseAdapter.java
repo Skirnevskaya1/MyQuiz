@@ -12,7 +12,7 @@ import java.util.List;
 // класс, с помощью которого создаем список категорий
 public class CatBaseAdapter extends BaseAdapter {
 
-    private List<String> catList;
+    private final List<String> catList;
 
     public CatBaseAdapter(List<String> catList) {
         this.catList = catList;

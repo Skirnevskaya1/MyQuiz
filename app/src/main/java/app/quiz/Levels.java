@@ -1,9 +1,5 @@
 package app.quiz;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -23,21 +19,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static app.quiz.GameLevels.category_id;
 
-public class Level1 extends AppCompatActivity implements View.OnClickListener {
-    private Button buttonBackUniversal;
-    private TextView question, textLevels, qCount;
+public class Levels extends AppCompatActivity implements View.OnClickListener {
+    private TextView question;
+    private TextView qCount;
     private Button option1, option2, option3, option4;
     private ImageView imageView;
     private int questionNum, score;
@@ -45,6 +45,7 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
     private FirebaseFirestore firestore;
     private int setNumber;
     private Dialog loadingDialog;
+    private String urlImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +53,14 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.universal);
         setupUI();
         getQuestionsList();
+
     }
 
     private void getQuestionsList() {
         questionList = new ArrayList<>();
 
-        firestore.collection("QUIZ").document("Categories" + String.valueOf(category_id))
-                .collection("SET" + String.valueOf(setNumber))
+        firestore.collection("QUIZ").document("Categories" + category_id)
+                .collection("SET" + setNumber)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -72,35 +74,30 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
                                 doc.getString("B"),
                                 doc.getString("C"),
                                 doc.getString("D"),
-                                R.drawable.question1,
+                                urlImage = doc.getString("IMAGE"),
                                 Integer.valueOf(doc.getString("ANSWER"))
                         ));
                     }
                     setQuestion();
                 } else {
-                    Toast.makeText(Level1.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Levels.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.cancel();
             }
         });
-
-//        questionList.add(new Question("Question 1", "A", "B", "C", "D", R.drawable.question1, 3));
-//        questionList.add(new Question("Question 2", "A", "B", "C", "D", R.drawable.question2, 4));
-//        questionList.add(new Question("Question 3", "C", "A", "B", "D", R.drawable.question2, 2));
-//        questionList.add(new Question("Question 4", "D", "A", "B", "D", R.drawable.question1, 2));
-//        questionList.add(new Question("Question 5", "A", "B", "C", "D", R.drawable.question1, 2));
-//        setQuestion();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setQuestion() {
         question.setText(questionList.get(0).getQuestion());
         option1.setText(questionList.get(0).getOptionA());
         option2.setText(questionList.get(0).getOptionB());
         option3.setText(questionList.get(0).getOptionC());
         option4.setText(questionList.get(0).getOptionD());
-        imageView.setImageResource(questionList.get(0).getImageView());
+        Picasso.get().load(urlImage).into(imageView);
+        //imageView.setImageResource(questionList.get(0).getImageView());
         questionNum = 0;
-        qCount.setText(String.valueOf(1) + "/" + String.valueOf(questionList.size()));
+        qCount.setText(1 + "/" + questionList.size());
     }
 
     @SuppressLint("CutPasteId")
@@ -112,6 +109,7 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
         option4 = findViewById(R.id.option4);
         imageView = findViewById(R.id.image_centre);
         qCount = findViewById(R.id.text_count);
+
         //Код который скругляет углы
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             imageView.setClipToOutline(true);
@@ -124,7 +122,7 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
         setNumber = getIntent().getIntExtra("SETNUMBER", 1);
         score = 0;
 
-        loadingDialog = new Dialog(Level1.this);
+        loadingDialog = new Dialog(Levels.this);
         loadingDialog.setContentView(R.layout.loading_progressbar);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_background);
@@ -134,21 +132,21 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
         firestore = FirebaseFirestore.getInstance();
 
         //Создаем переменную text_levels и устанавливаем текст для данного view
-        textLevels = (TextView) findViewById(R.id.text_levels);
+        TextView textLevels = findViewById(R.id.text_levels);
         textLevels.setText(R.string.level1); //установили текст
 
         //Кнопка "назад" вернуться к уровням
-        buttonBackUniversal = (Button) findViewById(R.id.button_back);
+        Button buttonBackUniversal = findViewById(R.id.button_back);
         buttonBackUniversal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Обрабатываем нажатие кнопки "назад"
                 try {
                     //Вернуться назад к выбору уровня
-                    Intent intent_universal = new Intent(Level1.this, GameLevels.class); //Создали намерение для перехода
+                    Intent intent_universal = new Intent(Levels.this, GameLevels.class); //Создали намерение для перехода
                     startActivity(intent_universal); // Старт намерения
                     finish(); //Закрыть этот класс
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
         });
@@ -158,10 +156,10 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         try {
-            Intent intent = new Intent(Level1.this, GameLevels.class);
+            Intent intent = new Intent(Levels.this, GameLevels.class);
             startActivity(intent);
             finish();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -193,24 +191,11 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
     private void checkAnswer(int selectedOption, View view) {
         if (selectedOption == questionList.get(questionNum).getCorrectAns()) {
             //правильный ответ загорается зеленым
-            ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             score++;
-
-//            count = count + 1;
-//            //закрашиваем правильные ответы прогресса зеленым цветом
-//            for (int i = 0; i < count; i++) {
-//                TextView view1 = findViewById(progress[i]);
-//                view1.setBackgroundResource(R.drawable.style_points_green);
-//            }
         } else {
             //неверный ответ красным
-            ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-//            count = count + 1;
-//            //закрашиваем правильные ответы прогресса красным цветом
-//            for (int i = 0; i < count; i++) {
-//                TextView view1 = findViewById(progress[i]);
-//                view1.setBackgroundResource(R.drawable.style_points_red);
-//            }
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
             switch (questionList.get(questionNum).getCorrectAns()) {
                 case 1:
                     option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
@@ -236,6 +221,7 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
         }, 2000);
     }
 
+    @SuppressLint("SetTextI18n")
     private void changeQuestion() {
         if (questionNum < questionList.size() - 1) {
             questionNum++;
@@ -245,12 +231,12 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
             playAnim(option3, 0, 3);
             playAnim(option4, 0, 4);
             playAnim(imageView, 0, 5);
-            qCount.setText(String.valueOf(questionNum + 1) + "/" + String.valueOf(questionList.size()));
+            qCount.setText((questionNum + 1) + "/" + questionList.size());
 
         } else {
             // перейти к активности ScoreActivity
-            Intent intent = new Intent(Level1.this, ScoreActivity.class);
-            intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            Intent intent = new Intent(Levels.this, ScoreActivity.class);
+            intent.putExtra("SCORE", score + "/" + questionList.size());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             //Level1.this.finish();
@@ -288,11 +274,11 @@ public class Level1 extends AppCompatActivity implements View.OnClickListener {
                                     ((Button) view).setText(questionList.get(questionNum).getOptionD());
                                     break;
                                 case 5:
-                                    ((ImageView) view).setImageResource(questionList.get(questionNum).getImageView());
+                                    // ((ImageView) view).set...(questionList.get(questionNum).getImageView());
                                     break;
                             }
                             if (viewNum != 0 && viewNum != 5) {
-                                ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                                view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
                             }
                             playAnim(view, 1, viewNum);
                         }

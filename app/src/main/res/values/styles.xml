@@ -45,7 +45,7 @@
     <style name="Button_back_universal">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/button_stroke_white_press_yellow</item>
+        <item name="android:background">@drawable/style_button_white</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:textAllCaps">false</item>
@@ -82,7 +82,7 @@
     <style name="RelativeLayout_game_levels">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/yellow</item>
+        <item name="android:background">@color/blue</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -122,7 +122,7 @@
     <style name="RelativeLayout_universal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/yellow2</item>
+        <item name="android:background">@color/blue</item>
         <item name="android:orientation">vertical</item>
     </style>
 

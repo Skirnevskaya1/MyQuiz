@@ -3,11 +3,11 @@ package app.quiz;
 public class Question {
     String question;
     String optionA, optionB, optionC, optionD;
-    int correctAns;//правильный ответ
-    int imageView;
+    int correctAns;
+    String imageView;
 
     public Question(String question, String optionA, String optionB,
-                    String optionC, String optionD, int imageView, int correctAns) {
+                    String optionC, String optionD, String imageView, int correctAns) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -65,11 +65,11 @@ public class Question {
         this.correctAns = correctAns;
     }
 
-    public int getImageView() {
+    public String getImageView() {
         return imageView;
     }
 
-    public void setImageView(int imageView) {
+    public void setImageView(String imageView) {
         this.imageView = imageView;
     }
 }

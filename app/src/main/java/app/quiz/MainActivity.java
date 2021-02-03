@@ -27,10 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static List<String> catList = new ArrayList<>();
     private FirebaseFirestore firestore;
-    private Button buttonStart;
-    private ImageView owl;
-    private TextView textView_quiz;
-    private Animation startButton, owlImage, quizTV;
     private long backPressedTime;
     private Toast backToast;
 
@@ -41,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //анимация для кнопки "старт"
-        startButton = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_button);
-        buttonStart = findViewById(R.id.buttonStart);
+        Animation startButton = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.start_button);
+        Button buttonStart = findViewById(R.id.buttonStart);
         buttonStart.startAnimation(startButton);
 
-        owlImage = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_down);
-        owl = findViewById(R.id.imageView_owl);
+        Animation owlImage = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_down);
+        ImageView owl = findViewById(R.id.imageView_owl);
         owl.startAnimation(owlImage);
 
-        quizTV = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_down);
-        textView_quiz = findViewById(R.id.textView_quiz);
+        Animation quizTV = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale_down);
+        TextView textView_quiz = findViewById(R.id.textView_quiz);
         textView_quiz.startAnimation(quizTV);
 
         firestore = FirebaseFirestore.getInstance();
@@ -61,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     loadData();
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
             }
         });
@@ -78,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     if (snapshot.exists()) {
                         long count = (long) snapshot.get("COUNT");
                         for (int i = 1; i <= count; i++) {
-                            String catName = snapshot.getString("Categories" + String.valueOf(i));
+                            String catName = snapshot.getString("Categories" + i);
                             catList.add(catName);
                         }
                         Intent intent = new Intent(MainActivity.this, CategoryActivity.class);

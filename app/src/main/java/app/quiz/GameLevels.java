@@ -18,7 +18,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GameLevels extends AppCompatActivity {
-    private Button buttonBack;
     private GridView gridView;
     private FirebaseFirestore firestore;
     public static int category_id;
@@ -30,12 +29,12 @@ public class GameLevels extends AppCompatActivity {
         setContentView(R.layout.game_levels);
         gridView = findViewById(R.id.cat_grid);
 
-       // String title = getIntent().getIntExtra("CATEGORY");
+        // String title = getIntent().getIntExtra("CATEGORY");
         category_id = getIntent().getIntExtra("CATEGORY_ID", 1);
-       // getSupportActionBar().setTitle(title);
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setTitle(title);
+        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    //Подключение к прогрессбар
+        //Подключение к прогрессбар
         loadingDialog = new Dialog(GameLevels.this);
         loadingDialog.setContentView(R.layout.loading_progressbar);
         loadingDialog.setCancelable(false);
@@ -46,7 +45,7 @@ public class GameLevels extends AppCompatActivity {
         loadSets();
 
         //Кнопка "Назад" в меню
-        buttonBack = (Button) findViewById(R.id.button_back);
+        Button buttonBack = findViewById(R.id.button_back);
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,30 +53,15 @@ public class GameLevels extends AppCompatActivity {
                     Intent intentBack = new Intent(GameLevels.this, CategoryActivity.class);
                     startActivity(intentBack);
                     finish();
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
             }
         });
-
-//        //Кнопка для перехода на первый уровень
-//        TextView textView = (TextView) findViewById(R.id.level_number);
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    Intent intentLevel1 = new Intent(GameLevels.this, Level1.class);
-//                    startActivity(intentLevel1);
-//                    finish();
-//                } catch (Exception e) {
-//
-//                }
-//            }
-//        });
     }
 
     private void loadSets() {
-        firestore.collection("QUIZ").document("Categories" + String.valueOf(category_id))
+        firestore.collection("QUIZ").document("Categories" + category_id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -107,7 +91,7 @@ public class GameLevels extends AppCompatActivity {
             Intent intent = new Intent(GameLevels.this, MainActivity.class);
             startActivity(intent);
             finish();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 }

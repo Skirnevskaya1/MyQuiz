@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
 // класс, с помощью которого создаем список уровней
 public class SetsAdapter extends BaseAdapter {
 
-    private int numOfSets;
+    private final int numOfSets;
 
     public SetsAdapter(int numOfSets) {
         this.numOfSets = numOfSets;
@@ -45,10 +43,11 @@ public class SetsAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(parent.getContext(), Level1.class);
+                Intent intent = new Intent(parent.getContext(), Levels.class);
                 intent.putExtra("SETNUMBER", position + 1);
                 // intent.putExtra("Set", numOfSets);
                 parent.getContext().startActivity(intent);
+
             }
         });
 
