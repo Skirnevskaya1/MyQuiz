@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Quiz</string>
+    <string name="start">Начать</string>
+    <string name="button_back">Назад</string>
+    <string name="level">Уровень:</string>
+    <string name="level1">Уровень 1</string>
+    <string name="score">счет</string>
+    <string name="done">далее</string>
+    <string name="quiz">викторина</string>
+    <string name="category_1">категории</string>
+    <string name="category_animals">животные</string>
+    <string name="category_geography">география</string>
+    <string name="loading">Загрузка...</string>
+    <string name="todo">TODO</string>
+</resources>
