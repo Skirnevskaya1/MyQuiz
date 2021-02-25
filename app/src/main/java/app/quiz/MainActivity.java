@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         firestore = FirebaseFirestore.getInstance();
 
-        //нажитие кнопки старт в меню категории
+        //нажатие кнопки старт в меню категории
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,21 +53,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Загрузка категорий из firebase
+    // Загрузка всего списка категорий из firebase
     private void loadData() {
         catList.clear();
         firestore.collection("QUIZ").document("Categories")
+                //получения содержимого в документе
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+                    //извлечь данные, считанные из документа в базе данных Cloud Firestore
                     DocumentSnapshot snapshot = task.getResult();
+                    // если документ существует
                     if (snapshot.exists()) {
                         long count = (long) snapshot.get("COUNT");
                         for (int i = 1; i <= count; i++) {
                             String catName = snapshot.getString("Categories" + i);
                             catList.add(catName);
                         }
+                        //переход на макет с категориями
                         Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
                         startActivity(intent);
                         MainActivity.this.finish();

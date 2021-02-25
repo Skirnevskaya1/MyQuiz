@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -35,7 +36,7 @@ import java.util.List;
 
 import static app.quiz.GameLevels.category_id;
 
-public class Levels extends AppCompatActivity implements View.OnClickListener {
+public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView question;
     private TextView qCount;
     private Button option1, option2, option3, option4;
@@ -43,6 +44,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
     private int questionNum, score;
     private List<Question> questionList;
     private List<String> imgUrlList = new ArrayList<>();
+    private String urlString;
 
     private FirebaseFirestore firestore;
     private int setNumber;
@@ -56,11 +58,12 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
         getQuestionsList();
     }
 
+    //получение списка вопросов из базы firebase
     private void getQuestionsList() {
         questionList = new ArrayList<>();
-
         firestore.collection("QUIZ").document("Categories" + category_id)
-                .collection("SET" + setNumber)
+                .collection("SET" + setNumber).orderBy("NUM", Query.Direction.DESCENDING)
+                //получения содержимого в документе
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -68,22 +71,19 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
                     QuerySnapshot questions = task.getResult();
                     Log.d("looooooooog", String.valueOf(questions.size()));
                     for (QueryDocumentSnapshot doc : questions) {
-
-                        String urlString = doc.getString("IMAGE");
-                        imgUrlList.add(urlString);
-
                         questionList.add(new Question(doc.getString("QUESTION"),
                                 doc.getString("A"),
                                 doc.getString("B"),
                                 doc.getString("C"),
                                 doc.getString("D"),
-                                doc.getString("IMAGE"),
+                                urlString = doc.getString("IMAGE"),
                                 Integer.valueOf(doc.getString("ANSWER"))
                         ));
+                                imgUrlList.add(urlString);
                     }
                     setQuestion();
                 } else {
-                    Toast.makeText(Levels.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuestionActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.cancel();
             }
@@ -99,6 +99,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
         option4.setText(questionList.get(0).getOptionD());
         Glide.with(this).load(imgUrlList.get(0)).into(imageView);
         questionNum = 0;
+        //кол-во вопросов
         qCount.setText(String.valueOf(1) + "/" + String.valueOf(questionList.size()));
     }
 
@@ -124,7 +125,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
         setNumber = getIntent().getIntExtra("SETNUMBER", 1);
         score = 0;
 
-        loadingDialog = new Dialog(Levels.this);
+        loadingDialog = new Dialog(QuestionActivity.this);
         loadingDialog.setContentView(R.layout.loading_progressbar);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawableResource(R.drawable.progress_background);
@@ -145,7 +146,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
                 //Обрабатываем нажатие кнопки "назад"
                 try {
                     //Вернуться назад к выбору уровня
-                    Intent intent_universal = new Intent(Levels.this, GameLevels.class); //Создали намерение для перехода
+                    Intent intent_universal = new Intent(QuestionActivity.this, GameLevels.class); //Создали намерение для перехода
                     startActivity(intent_universal); // Старт намерения
                     finish(); //Закрыть этот класс
                 } catch (Exception ignored) {
@@ -158,7 +159,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         try {
-            Intent intent = new Intent(Levels.this, GameLevels.class);
+            Intent intent = new Intent(QuestionActivity.this, GameLevels.class);
             startActivity(intent);
             finish();
         } catch (Exception ignored) {
@@ -241,7 +242,7 @@ public class Levels extends AppCompatActivity implements View.OnClickListener {
                     into(imageView);
         } else {
             // перейти к активности ScoreActivity
-            Intent intent = new Intent(Levels.this, ScoreActivity.class);
+            Intent intent = new Intent(QuestionActivity.this, ScoreActivity.class);
             intent.putExtra("SCORE", score + "/" + questionList.size());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);

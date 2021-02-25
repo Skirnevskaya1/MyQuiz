@@ -11,6 +11,4 @@
     <string name="category_animals">животные</string>
     <string name="category_geography">география</string>
     <string name="loading">Загрузка...</string>
-    <string name="todo">TODO</string>
-
 </resources>

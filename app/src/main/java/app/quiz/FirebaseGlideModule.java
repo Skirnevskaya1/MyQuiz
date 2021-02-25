@@ -13,7 +13,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
-// Класс для imageViews
+// Класс для imageViews, регистрирует компоненты
 @GlideModule
 public class FirebaseGlideModule extends AppGlideModule {
     @Override

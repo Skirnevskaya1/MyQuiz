@@ -66,8 +66,8 @@ public class GameLevels extends AppCompatActivity {
         });
     }
 
+    //загрузка уровней из базы firebase
     private void loadSets() {
-
         firestore.collection("QUIZ").document("Categories" + category_id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
