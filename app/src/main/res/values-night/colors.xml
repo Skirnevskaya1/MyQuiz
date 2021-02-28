@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9dc7d5</color>
-    <color name="colorPrimaryDark">#63ABC3</color>
+
     <color name="colorAccent">#040203</color>
 
     <color name="colorPrimaryNight">#16202c</color>
@@ -13,10 +12,7 @@
 
     <color name="black">#95000000</color>
     <color name="black0">#040203</color>
-    <color name="blue">#9dc7d5</color>
     <color name="black60">#60000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_dark">#E4E4E4</color>
-    <color name="green">#00FF00</color>
-    <color name="red">#FFFF0000</color>
 </resources>

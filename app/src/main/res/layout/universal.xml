@@ -1,55 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/RelativeLayout_universal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Layout_background">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/container1"
-        style="@style/LinearLayout_container1">
+        style="@style/LinearLayout_container1_universal">
 
         <LinearLayout
             android:id="@+id/container2"
-            style="@style/LinearLayout_universal_container2">
-
-            <LinearLayout
-                android:id="@+id/line1"
-                style="@style/LinearLayout_container3_line1">
-
-                <Button
-                    android:id="@+id/button_back"
-                    style="@style/Button_back_universal"
-                    android:text="@string/button_back" />
-
-                <TextView
-                    android:id="@+id/text_levels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:padding="10dp"
-                    android:text="@string/level"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
+            style="@style/LinearLayout_universal_container">
 
             <LinearLayout
                 android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                />
+                style="@style/Layout_universal_line2">
 
                 <TextView
                     android:id="@+id/text_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0/0"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"/>
+                    style="@style/Text_count"
+                    android:text="0/0" />
             </LinearLayout>
 
             <!--  <LinearLayout
@@ -66,150 +43,14 @@
                      android:layout_height="match_parent"
                      android:layout_weight="1"
                      android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point2"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point3"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point4"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point5"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point6"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point7"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point8"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point9"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point10"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point11"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point12"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point13"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point14"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point15"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point16"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point17"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point18"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point19"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
-                 <TextView
-                     android:id="@+id/point20"
-                     android:layout_width="wrap_content"
-                     android:layout_height="10dp"
-                     android:layout_weight="1"
-                     android:background="@drawable/style_points" />
-
+            ...
              </LinearLayout> -->
 
             <LinearLayout
                 android:id="@+id/line3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                style="@style/Layout_activity_main"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/image_centre"
@@ -220,111 +61,39 @@
                     android:background="@drawable/style_img_universal"
                     android:scaleType="centerCrop"
                     android:src="@drawable/back_art" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/line4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                style="@style/LinearLayout_universal_container">
 
                 <TextView
                     android:id="@+id/text_question"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="question"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    style="@style/Text_question" />
 
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/container3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            style="@style/LinearLayout_universal_container">
 
-            <LinearLayout
-                android:id="@+id/radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
 
-                <Button
-                    android:id="@+id/option1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_answers"
-                    android:backgroundTint="@color/white_dark"
-                    android:button="@null"
-                    android:freezesText="true"
-                    android:gravity="center"
-                    android:padding="12sp"
-                    android:text="Button"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
+            <Button
+                android:id="@+id/option1"
+                style="@style/Button_universal" />
 
-                <Button
-                    android:id="@+id/option2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_answers"
-                    android:backgroundTint="@color/white_dark"
-                    android:button="@null"
-                    android:freezesText="true"
-                    android:gravity="center"
-                    android:padding="12sp"
-                    android:text="Button"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
+            <Button
+                android:id="@+id/option2"
+                style="@style/Button_universal" />
 
-                <Button
-                    android:id="@+id/option3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_answers"
-                    android:backgroundTint="@color/white_dark"
-                    android:button="@null"
-                    android:freezesText="true"
-                    android:gravity="center"
-                    android:padding="12sp"
-                    android:text="Button"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
+            <Button
+                android:id="@+id/option3"
+                style="@style/Button_universal" />
 
-                <Button
-                    android:id="@+id/option4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_answers"
-                    android:backgroundTint="@color/white_dark"
-                    android:freezesText="true"
-                    android:gravity="center"
-                    android:padding="12sp"
-                    android:text="Button"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/option4"
+                style="@style/Button_universal" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

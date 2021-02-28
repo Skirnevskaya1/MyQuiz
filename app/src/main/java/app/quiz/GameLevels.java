@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,27 +19,28 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class GameLevels extends AppCompatActivity {
+    private Toolbar toolbar;
     private GridView gridView;
     private FirebaseFirestore firestore;
     public static int category_id;
     private Dialog loadingDialog;
-    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_levels);
 
+        gridView = findViewById(R.id.cat_grid);
+        //доступ к toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        category_id = getIntent().getIntExtra("CATEGORY_ID", 1);
+        getSupportActionBar().setTitle("Levels");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 /*        //Сохранение последних действий в игре
         SharedPreferences preferences = getSharedPreferences("Save", MODE_PRIVATE);
         level = preferences.getInt("Level", 1);*/
-
-        gridView = findViewById(R.id.cat_grid);
-
-        // String title = getIntent().getIntExtra("CATEGORY");
-        category_id = getIntent().getIntExtra("CATEGORY_ID", 1);
-        // getSupportActionBar().setTitle(title);
-        //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Подключение к прогресс бар
         loadingDialog = new Dialog(GameLevels.this);
@@ -50,17 +52,18 @@ public class GameLevels extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         loadSets();
 
-        //Кнопка "Назад" в меню
-        Button buttonBack = findViewById(R.id.button_back);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        //Toolbar "назад" вернуться в меню
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Обрабатываем нажатие кнопки "назад"
                 try {
-                    Intent intentBack = new Intent(GameLevels.this, CategoryActivity.class);
-                    startActivity(intentBack);
-                    finish();
+                    //Вернуться назад к выбору уровня
+                    Intent intent_universal = new Intent(GameLevels.this,
+                            CategoryActivity.class); //Создали намерение для перехода
+                    startActivity(intent_universal);
+                    finish(); //Закрыть этот класс
                 } catch (Exception ignored) {
-
                 }
             }
         });
@@ -72,30 +75,22 @@ public class GameLevels extends AppCompatActivity {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-    //            if (level >= 1) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot snapshot = task.getResult();
-                        if (snapshot.exists()) {
-                            long sets = (long) snapshot.get("SETS");
-                            SetsAdapter setsAdapter = new SetsAdapter((int) sets);
-                            gridView.setAdapter(setsAdapter);
-                        } else {
-                            Toast.makeText(GameLevels.this, "No Categories document Exists!", Toast.LENGTH_SHORT).show();
-                            finish();
-   //                     }
+                if (task.isSuccessful()) {
+                    DocumentSnapshot snapshot = task.getResult();
+                    if (snapshot.exists()) {
+                        long sets = (long) snapshot.get("SETS");
+                        SetsAdapter setsAdapter = new SetsAdapter((int) sets);
+                        gridView.setAdapter(setsAdapter);
+                    } else {
+                        Toast.makeText(GameLevels.this, "No Categories document Exists!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-
                 } else {
                     Toast.makeText(GameLevels.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 loadingDialog.cancel();
             }
         });
-//        final int[] x = {R.id.level_number};
-//        for (int i = 1; i < level; i++) {
-//            TextView masx = findViewById(x[i]);
-//            masx.setText("" + (i + 1));
-//        }
     }
 
     //Системная кнопка "Назад"

@@ -22,6 +22,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,9 +36,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import static app.quiz.CategoryActivity.KEY_ISNIGHTMODE;
 import static app.quiz.GameLevels.category_id;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
+    private Toolbar toolbar;
     private TextView question;
     private TextView qCount;
     private Button option1, option2, option3, option4;
@@ -56,13 +60,35 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.universal);
         setupUI();
         getQuestionsList();
+
+        //доступ к toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Back");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Toolbar "назад" вернуться в главный экран
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Обрабатываем нажатие кнопки "назад"
+                try {
+                    //Вернуться назад к выбору уровня
+                    Intent intent_universal = new Intent(QuestionActivity.this,
+                            GameLevels.class); //Создали намерение для перехода
+                    startActivity(intent_universal);
+                    finish(); //Закрыть этот класс
+                } catch (Exception ignored) {
+                }
+            }
+        });
     }
 
     //получение списка вопросов из базы firebase
     private void getQuestionsList() {
         questionList = new ArrayList<>();
         firestore.collection("QUIZ").document("Categories" + category_id)
-                .collection("SET" + setNumber).orderBy("NUM", Query.Direction.DESCENDING)
+                .collection("SET" + setNumber).orderBy("QUESTION", Query.Direction.ASCENDING)
                 //получения содержимого в документе
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -79,7 +105,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                 urlString = doc.getString("IMAGE"),
                                 Integer.valueOf(doc.getString("ANSWER"))
                         ));
-                                imgUrlList.add(urlString);
+                        imgUrlList.add(urlString);
                     }
                     setQuestion();
                 } else {
@@ -134,25 +160,25 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         firestore = FirebaseFirestore.getInstance();
 
-        //Создаем переменную text_levels и устанавливаем текст для данного view
-        TextView textLevels = findViewById(R.id.text_levels);
-        textLevels.setText(R.string.level1); //установили текст
+//        //Создаем переменную text_levels и устанавливаем текст для данного view
+//        TextView textLevels = findViewById(R.id.text_levels);
+//        textLevels.setText(R.string.level1); //установили текст
 
-        //Кнопка "назад" вернуться к уровням
-        Button buttonBackUniversal = findViewById(R.id.button_back);
-        buttonBackUniversal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Обрабатываем нажатие кнопки "назад"
-                try {
-                    //Вернуться назад к выбору уровня
-                    Intent intent_universal = new Intent(QuestionActivity.this, GameLevels.class); //Создали намерение для перехода
-                    startActivity(intent_universal); // Старт намерения
-                    finish(); //Закрыть этот класс
-                } catch (Exception ignored) {
-                }
-            }
-        });
+//        //Кнопка "назад" вернуться к уровням
+//        Button buttonBackUniversal = findViewById(R.id.button_back);
+//        buttonBackUniversal.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Обрабатываем нажатие кнопки "назад"
+//                try {
+//                    //Вернуться назад к выбору уровня
+//                    Intent intent_universal = new Intent(QuestionActivity.this, GameLevels.class); //Создали намерение для перехода
+//                    startActivity(intent_universal); // Старт намерения
+//                    finish(); //Закрыть этот класс
+//                } catch (Exception ignored) {
+//                }
+//            }
+//        });
     }
 
     //Системная кнопка "назад"
@@ -246,7 +272,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             intent.putExtra("SCORE", score + "/" + questionList.size());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            //Level1.this.finish();
+            finish();
 //
 //            //Сохранение последних действий  в игре
 //            SharedPreferences preferences = getSharedPreferences("Save", MODE_PRIVATE);
@@ -294,8 +320,14 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     // ((ImageView) view).set...(questionList.get(questionNum).getImageView());
                                     break;
                             }
+                            CategoryActivity categoryActivity = new CategoryActivity();
                             if (viewNum != 0 && viewNum != 5) {
-                                view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                                //                         if (categoryActivity.aSwitch.isChecked() == true) {
+                                view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#c2c2c2")));
+
+                                //                       } else {
+                                //                          view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3d4755")));
+                                //                      }
                             }
                             playAnim(view, 1, viewNum);
                         }

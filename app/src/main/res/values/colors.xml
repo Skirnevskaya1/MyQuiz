@@ -7,16 +7,19 @@
     <color name="colorPrimaryNight">#16202c</color>
     <color name="colorPrimaryDarkNight">#141d26</color>
     <color name="colorAccentNight">#FFFFFF</color>
-
     <color name="primaryTitleColor">#212121</color>
     <color name="primaryTitleColorNight">#FFFFFF</color>
 
     <color name="black">#95000000</color>
     <color name="black0">#040203</color>
+    <color name="black01">#000000</color>
     <color name="blue">#9dc7d5</color>
     <color name="black60">#60000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_dark">#E4E4E4</color>
     <color name="green">#00FF00</color>
     <color name="red">#FFFF0000</color>
+    <color name="darkWhite">#fafafa</color>
+    <color name="greyNight">#3d4755</color>
+    <color name="greyLight">#c2c2c2</color>
 </resources>

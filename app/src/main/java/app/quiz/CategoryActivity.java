@@ -4,29 +4,39 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.Switch;
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 import static app.quiz.MainActivity.catList;
 
 public class CategoryActivity extends AppCompatActivity {
-    private Switch aSwitch;
-    private Button button;
+    protected Switch aSwitch;
+    private Toolbar toolbar;
     private GridView gridView;
     public static final String MyPREFERENCES = "nightNodePrefs";
     public static final String KEY_ISNIGHTMODE = "isNightMode";
-    private SharedPreferences sharedPreferences;
+    protected SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        //доступ к toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Categories");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //получение доступа к настройкам, MODE_PRIVATE - только приложение имеет доступ к настройкам
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -54,11 +64,8 @@ public class CategoryActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //Кнопка "назад" вернуться к уровням
-        Button buttonBackUniversal = findViewById(R.id.button_back);
-
-        buttonBackUniversal.setOnClickListener(new View.OnClickListener() {
+       //Toolbar "назад" вернуться в главный экран
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Обрабатываем нажатие кнопки "назад"
@@ -75,7 +82,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     //сохранение состояния ночного режима
-    private void saveNightModeState(boolean nightMode) {
+    protected void saveNightModeState(boolean nightMode) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(KEY_ISNIGHTMODE, nightMode);
         editor.apply();
@@ -101,5 +108,13 @@ public class CategoryActivity extends AppCompatActivity {
             finish();
         } catch (Exception ignored) {
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            CategoryActivity.this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
